@@ -1,19 +1,33 @@
+#define _GNU_SOURCE
 #include <stdio.h>
+#include <stdlib.h>
 #include <memory.h>
-#include "sig_sype.h"
+#include "sig_type.h"
+#include "file_io.h"
+#include "strio.h"
 
 #define QUIT_CODE 7
+#define FILE_READ 1
 
 int menu(void);
 
 int main() {
+	IN_SIGNAL in_sig;
+	OUT_SIGNAL out_sig;
+	int ready;
 
 	int choice = menu();
 
 	while (choice != QUIT_CODE) {
 		switch(choice) {
-			case 1:
-				printf("Заглушка\n");
+			case FILE_READ:
+				if( file_read(&in_sig, &out_sig) < 0){
+					puts("Something went wrong");
+					getint();
+				} else {
+					puts("succes!");
+					getint();
+					}
 				break;
 			case QUIT_CODE:
 				printf("Bye\n");
@@ -27,12 +41,14 @@ int main() {
 
 int menu(void) {
 	int option = 0 ;
-	do {
+	do {	
+		printf("\e[1;1H\e[2J");
+		printf("\n\n\n");
 		printf("1: Input signal parametrs from file\n");
 		printf("7: Exit\n");
 		printf(">");
-		fflush(stdin);
-		scanf("%d", &option);
+		option = getint();
 	} while ((option < 0) || (option > 7)); 
 	return option;
 }
+

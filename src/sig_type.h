@@ -1,7 +1,7 @@
 #ifndef SIG_TYPE_H
 #define SIG_TYPE_H
 
-typedef IN_SIGNAL {
+typedef struct {
 	double tn;
 	double tk;
 	double tm;
@@ -9,9 +9,11 @@ typedef IN_SIGNAL {
 	double a;
 	double b;
 	int n;
-}
+} IN_SIGNAL;
 
-typedef OUT_SIGNAL {
+typedef struct {
 	double point;
 	double mult;
-}
+} OUT_SIGNAL;
+
+#endif
