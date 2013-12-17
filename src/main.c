@@ -5,16 +5,17 @@
 #include "sig_type.h"
 #include "file_io.h"
 #include "strio.h"
+#include "signal.h"
 
-#define QUIT_CODE 7
 #define FILE_READ 1
+#define MANUAL 2
+#define QUIT_CODE 7
 
 int menu(void);
 
 int main() {
 	IN_SIGNAL in_sig;
 	OUT_SIGNAL out_sig;
-	int ready;
 
 	int choice = menu();
 
@@ -26,9 +27,16 @@ int main() {
 					getint();
 				} else {
 					puts("succes!");
+					double *u_in = malloc(sizeof(double) * (in_sig.n+1));
+					double *u_out = malloc(sizeof(double) * (in_sig.n+1));
+					sig_gen(in_sig, out_sig, u_in, u_out);
 					getint();
 					}
 				break;
+			case MANUAL:
+					puts("!!!DEVELOPMENT!!!");
+					getint();
+					break;
 			case QUIT_CODE:
 				printf("Bye\n");
 				break;
@@ -44,8 +52,9 @@ int menu(void) {
 	do {	
 		printf("\e[1;1H\e[2J");
 		printf("\n\n\n");
-		printf("1: Input signal parametrs from file\n");
-		printf("7: Exit\n");
+		printf(" 1: Input signal parametrs from file\n");
+		printf(" 2: Input signal parametrs manually\n");
+		printf(" 7: Exit\n");
 		printf(">");
 		option = getint();
 	} while ((option < 0) || (option > 7)); 

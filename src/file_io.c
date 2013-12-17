@@ -8,7 +8,7 @@ FILE* open_file(char mode) {
 	printf("Insert filename:\n");
 	char* filename = getstring();
 	//REMOVE
-	printf("filelename: %s\n", filename);
+	printf("filename: %s\n", filename);
 
 	FILE* file;
 	switch (mode) {
@@ -21,8 +21,9 @@ FILE* open_file(char mode) {
 			puts("Wrong use of the open_file function");
 			file = fopen(filename, "r+");
 	}
-	free(filename);
-
+	if (filename) {
+		free(filename);
+	}
 	if (file == NULL) {
 		puts("Error reading file");
 	}

@@ -1,16 +1,17 @@
 #define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "strio.h"
 
-/*!!!After using both readline() and getstring() memory has to be free()'d!!!*/
+/*!!! After using both readline() and getstring() memory has to be free()'d !!!*/
 
 char* readline() {
 	size_t nbytes = 2;
-	char* line = (char *) malloc(nbytes + 1);
-	getline(&line, &nbytes, stdin);
-	if (line[nbytes - 1] == '\n') {
-		(line[nbytes - 1] = '\0');
+	char* line = NULL;
+	ssize_t read = getline(&line, &nbytes, stdin);
+	if (line[read - 1] == '\n') {
+		line[read - 1] = '\0';
 	}
 	return line;
 }
@@ -25,8 +26,11 @@ int getint() {
 
 char* getstring() {
 	char* rawline = readline();
-	char* newline = malloc(sizeof(rawline));
+	//even if it's cyrrilic - we need real number of bytes.
+	char* newline = malloc(strlen(rawline) + 1);  
 	sscanf(rawline, "%s", newline);
-	free(rawline);
+	if(rawline) {
+		free(rawline);
+	}
 	return newline;
 }

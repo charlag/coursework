@@ -1,6 +1,6 @@
-CFLAGS=-c -Wall -std=c99
-LDFLAGS=-L src
-SOURCES=main.c file_io.c strio.c
+CFLAGS=-c -Wall -g -std=c99
+LDFLAGS=-lm -g
+SOURCES=main.c file_io.c strio.c signal.c
 OBJECTS=$(SOURCES:.c=.o)
 EXECUTABLE=kurs
 VPATH=src
@@ -8,7 +8,10 @@ VPATH=src
 all: $(SOURCES) $(EXECUTABLE)
 	
 $(EXECUTABLE): $(OBJECTS)
-	gcc $(OBJECTS) -o $@	
+	gcc $(LDFLAGS) $(OBJECTS) -o $@	
 
 .c.o:
 	gcc $(CFLAGS) $< -o $@
+
+clean:
+	@rm $(OBJECTS)
