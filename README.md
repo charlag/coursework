@@ -5,4 +5,6 @@ sig_type.h defines two types: IN_SIGNAL and OUT_SIGNAL. They are both just struc
 
 =========
 TODO: calculate parametrs
-TODO: display/print to file signal
+TODO: manually insert parametrs
+TODO: fix signal output format
+TODO: test signal

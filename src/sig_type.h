@@ -12,8 +12,8 @@ typedef struct {
 } IN_SIGNAL;
 
 typedef struct {
-	double point;
-	double mult;
+	double u1;
+	double u2;
 } OUT_SIGNAL;
 
 #endif
