@@ -52,6 +52,7 @@ int main() {
 					if(!manual(&in_sig, &out_sig)) {
 						puts("Cannnot evalute if less then 2 points");
 						ready = 0;
+						getint();
 						break;
 					}
 					puts("succes!");

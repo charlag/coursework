@@ -36,10 +36,14 @@ int file_read(IN_SIGNAL *in_sig, OUT_SIGNAL *out_sig) {
 	if (file == NULL) {
 		return 0;
 	}
-	
-	int result = fscanf(file, "%lf %lf %lf %lf %lf %lf %d"
-			"%lf %lf", &in_sig->u, &in_sig->tn, &in_sig->tm, &in_sig->tk,
-			&in_sig->a, &in_sig->b, &in_sig->n, &out_sig->u1, &out_sig->u2);
+	fscanf(file, "%*s %*s"); // "Parametrs are:"
+	fscanf(file, "%*s %*s %*s"); //For input signal:
+	int result = 0;
+	result += fscanf(file, "%*s %lf %*s %*s %lf %*s %*s %lf %*s %*s %lf %*s %*s  %lf %*s %*s %lf %*s\n", &in_sig->u, &in_sig->tn, &in_sig->tm, &in_sig->tk,
+			&in_sig->a, &in_sig->b);
+	fscanf(file, "%*s %*s %*s"); //"For output signal"
+	result += fscanf(file, "%*s %lf %*s %*s %lf %*s\n", &out_sig->u1, &out_sig->u2);
+	result += fscanf(file, "%*s %d %*s\n", &in_sig->n);
 	fclose(file);
 	if (result < 9) {
 		puts("Wrong file");

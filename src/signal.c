@@ -55,9 +55,10 @@ void print_signal(FILE* stream, const IN_SIGNAL in_sig, const OUT_SIGNAL out_sig
 		       	in_sig.u, in_sig.tn, in_sig.tm, in_sig.tk, in_sig.a, in_sig.b);
 	fprintf(stream, "For output signal:\n"); 
 	fprintf(stream, "u1: %.3lf V, u2: %.3lf V\n", out_sig.u1, out_sig.u2);
-	fprintf(stream, "%6s %5s %5s %5s\n", "Number", "time", "Uin", "Uout");
+	fprintf(stream, "In %d points\n", in_sig.n);
+	fprintf(stream, "%6s %6s %6s %6s\n", "Number", "time", "Uin", "Uout");
 	for (int i = 0; i < in_sig.n; i++) {
-		fprintf(stream, "%6.3d %5.3lf %5.3lf %5.3lf\n", i+1, time[i], u_in[i], u_out[i]);
+		fprintf(stream, "%6.3d %6.3lf %6.3lf %6.3lf\n", i+1, time[i], u_in[i], u_out[i]);
 	}
 	
 	fprintf(stream, "Duration of input signal impuls is: %lf"
