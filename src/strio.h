@@ -4,4 +4,5 @@
 char* readline(void);
 int getint(void);
 char* getstring(void);
+double getdouble(void);
 #endif

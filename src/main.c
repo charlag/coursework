@@ -6,6 +6,7 @@
 #include "file_io.h"
 #include "strio.h"
 #include "signal.h"
+#include "ui.h"
 
 #define FILE_READ 1
 #define MANUAL 2
@@ -25,6 +26,7 @@ int main() {
 	double* time;
 	double* u_in;
 	double* u_out;
+	double in_durat, out_durat;
 
 	while (choice != QUIT_CODE) {
 		switch(choice) {
@@ -39,15 +41,29 @@ int main() {
 					u_out = malloc(sizeof(double) * (in_sig.n+1));
 					sig_gen(in_sig, out_sig, time, u_in, u_out);
 					ready = 1;
-					print_signal(stdout, in_sig, out_sig, time, u_in, u_out);
+					in_durat = sig_duration(u_in, in_sig.n, in_sig.tn, in_sig.tk);
+				        out_durat = sig_duration(u_out, in_sig.n, in_sig.tn, in_sig.tk);	
+					print_signal(stdout, in_sig, out_sig, time, u_in, u_out,
+							in_durat, out_durat);
 					getint();
 					}
 				break;
 			case MANUAL:
-					puts("!!!DEVELOPMENT!!!");
-					puts("  ▲  ");
-					puts(" ▲▲▲ ");
-					puts("▲▲▲▲▲");
+					if(!manual(&in_sig, &out_sig)) {
+						puts("Cannnot evalute if less then 2 points");
+						ready = 0;
+						break;
+					}
+					puts("succes!");
+					time = malloc(sizeof(double) * (in_sig.n+1));
+					u_in = malloc(sizeof(double) * (in_sig.n+1));
+					u_out = malloc(sizeof(double) * (in_sig.n+1));
+					sig_gen(in_sig, out_sig, time, u_in, u_out);
+					ready = 1;
+					in_durat = sig_duration(u_in, in_sig.n, in_sig.tn, in_sig.tk);
+				        out_durat = sig_duration(u_out, in_sig.n, in_sig.tn, in_sig.tk);	
+					print_signal(stdout, in_sig, out_sig, time, u_in, u_out,
+							in_durat, out_durat);
 					getint();
 					break;
 			case DISPLAY:
@@ -56,18 +72,19 @@ int main() {
 					getint();
 					break;
 					}
-					print_signal(stdout, in_sig, out_sig, time, u_in, u_out);
+					print_signal(stdout, in_sig, out_sig, time, u_in, u_out,
+							in_durat, out_durat);
 					getint();
 					break;
 			case PRINT:
 					if (ready < 1) {
 						puts("Signal is not generated");
 						getint();
-					} else if ( !file_print(in_sig, out_sig, time, u_in, u_out)) {
+					} else if ( !file_print(in_sig, out_sig, time, u_in, u_out, in_durat, out_durat)) {
 						puts("Something went wrong");
 							getint();
 					} else {
-						puts("Succes!");
+						puts("Success!");
 						getint();
 					}
 					break;
@@ -82,19 +99,4 @@ int main() {
 }
 
 
-int menu(void) {
-	int option = 0 ;
-	do {	
-		printf("\e[1;1H\e[2J");
-		printf("\n\n\n");
-		puts(" 1: Input signal parametrs from file");
-		puts(" 2: Input signal parametrs manually");
-		puts(" 3: Display signal");
-		puts(" 4: Print signal to file");
-		puts(" 7: Exit");
-		printf(">");
-		option = getint();
-	} while ((option < 0) || (option > 7)); 
-	return option;
-}
 

@@ -25,10 +25,30 @@ void sig_gen(const IN_SIGNAL in_sig, const OUT_SIGNAL out_sig, double *time, dou
 		}
 		t+= dt;
 	}
+
+}
+
+double sig_duration(double *arr, int n, double tn, double tk) {
+	double min = arr[0], max = arr[0];
+	for (int i=1; i < n; i++) {
+		if (arr[i] < min)
+			min = arr[i];
+		if (arr[i] > max)
+			max = arr[i];
+	}
+	//Длительность входного и выходного сигналов
+	float durat = 0;
+	float dt = (tk-tn)/(n-1);
+	for (int i = 0; i < n; i++) {
+		 if (arr[i] >= min + 0.5 * (max - min))
+			 durat+=dt;
+	}
+	return durat;
 }
 
 void print_signal(FILE* stream, const IN_SIGNAL in_sig, const OUT_SIGNAL out_sig,
-		const double* time, const double* u_in, const double* u_out) {
+		const double* time, const double* u_in, const double* u_out,
+		double dur_in, double dur_out) {
 	fprintf(stream, "Parametrs are:\n");
 	fprintf(stream, "For input signal:\n");
 	fprintf(stream,"u: %.3lf V, tn: %.3lf sec, t1: %.3lf sec, tk: %.3lf sec, a: %.3lf 1/sec, b: %.3lf 1/sec\n",
@@ -39,4 +59,8 @@ void print_signal(FILE* stream, const IN_SIGNAL in_sig, const OUT_SIGNAL out_sig
 	for (int i = 0; i < in_sig.n; i++) {
 		fprintf(stream, "%6.3d %5.3lf %5.3lf %5.3lf\n", i+1, time[i], u_in[i], u_out[i]);
 	}
+	
+	fprintf(stream, "Duration of input signal impuls is: %lf"
+			"	  of output:		     %lf\n",
+			dur_in, dur_out);
 }

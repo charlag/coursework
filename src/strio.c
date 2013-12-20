@@ -17,9 +17,21 @@ char* readline() {
 }
 
 int getint() {
-	int num;
+	int num = 0;
 	char* line = readline();
-	sscanf(line, "%d", &num);
+	if (!sscanf(line, "%d", &num)) {
+		puts("No numer");
+	}
+	free(line);
+	return num;
+}
+
+double getdouble() {
+	double num = 0;
+	char *line = readline();
+	if (!sscanf(line, "%lf", &num)) {
+		puts("No number");
+	}
 	free(line);
 	return num;
 }
