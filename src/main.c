@@ -28,16 +28,27 @@ int main() {
 	double* u_in;
 	double* u_out;
 	double in_durat, out_durat;
-
+	int res;
+	FILE* file;
 	while (choice != QUIT_CODE) {
 		switch(choice) {
 			case FILE_READ:
-				if( !file_read(&in_sig, &out_sig) ){
+				file =  open_file('r');
+				if (file ==NULL) {
+					break;
+				}
+				res = file_read_head(file, &in_sig, &out_sig);
+				time = (double*) malloc(sizeof(double)*in_sig.n);
+				u_in = (double*) malloc(sizeof(double)*in_sig.n);
+				u_out = (double*) malloc(sizeof(double)*in_sig.n);
+				res += file_read_table(file, in_sig.n, time, u_in, u_out, &in_durat, &out_durat);
+				if(res < (9 + in_sig.n + 2)) {
+					ready = 1;
 					puts("Something went wrong");
 					getint();
 				} else {
 					puts("succes!");
-					ready = 1;
+					ready = 2;
 					getint();
 					}
 				break;

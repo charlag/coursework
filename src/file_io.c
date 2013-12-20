@@ -30,26 +30,32 @@ FILE* open_file(char mode) {
 	return file;
 }
 
-int file_read(IN_SIGNAL *in_sig, OUT_SIGNAL *out_sig) {
-	FILE* file = open_file('r');
-
-	if (file == NULL) {
-		return 0;
-	}
+int file_read_head(FILE* file, IN_SIGNAL *in_sig, OUT_SIGNAL *out_sig) {
 	fscanf(file, "%*s %*s"); // "Parametrs are:"
 	fscanf(file, "%*s %*s %*s"); //For input signal:
 	int result = 0;
 	result += fscanf(file, "%*s %lf %*s %*s %lf %*s %*s %lf %*s %*s %lf %*s %*s  %lf %*s %*s %lf %*s\n", &in_sig->u, &in_sig->tn, &in_sig->tm, &in_sig->tk,
 			&in_sig->a, &in_sig->b);
 	fscanf(file, "%*s %*s %*s"); //"For output signal"
-	result += fscanf(file, "%*s %lf %*s %*s %lf %*s\n", &out_sig->u1, &out_sig->u2);
-	result += fscanf(file, "%*s %d %*s\n", &in_sig->n);
-	fclose(file);
-	if (result < 9) {
-		puts("Wrong file");
-		return 0;
+	result += fscanf(file, "%*s %lf %*s %*s %lf %*s", &out_sig->u1, &out_sig->u2);
+	result += fscanf(file, "%*s %d %*s", &in_sig->n);
+	return result;
+}
+
+
+int file_read_table(FILE* file, int n, double* time, double* u_in, double*u_out, double* in_durat, double* out_durat) {
+	fscanf(file, "%*s %*s %*s %*s");
+	double t, uin, uout;
+	int result = 0;
+	for (int i = 0; i < n; i++) {
+		result += fscanf(file, " %*d %lf %lf %lf", &t, &uin, &uout);
+		time[i] = t;
+		u_in[i] = uin;
+		u_out[i] = uout;
 	}
-	return 1;
+	result += fscanf(file, "%*s %*s %*s %*s %*s %*s %lf %*s %*s %lf", in_durat, out_durat);
+	fclose(file);
+	return result;
 }
 
 int file_print(const IN_SIGNAL in_sig, const OUT_SIGNAL out_sig, const double* time,
