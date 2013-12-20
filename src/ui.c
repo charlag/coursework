@@ -13,7 +13,8 @@ int menu(void) {
 		puts(" 2: Insert signal parametrs manually");
 		puts(" 3: Display signal");
 		puts(" 4: Print signal to file");
-		puts(" 7: Exit");
+		puts(" 5: Generate signal");
+		puts(" 6: Exit");
 		printf(">");
 		option = getint();
 	} while ((option < 0) || (option > 7)); 
