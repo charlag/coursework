@@ -7,4 +7,5 @@ void print_signal(FILE* stream, const IN_SIGNAL in_sig, const OUT_SIGNAL out_sig
 		const double* time, const double* u_in, const double* u_out,
 		double dur_in, double dur_out); 
 double sig_duration(double *arr, int n, double tn, double tk);
+void maxima(int n, double* time, double *u_in, double* u_out);
 #endif

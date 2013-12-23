@@ -1,6 +1,9 @@
+#define _XOPEN_SOURCE
 #include <stdio.h>
+#include <stdlib.h>
 #include "sig_type.h"
 #include <math.h>
+#include "strio.h"
 
 void sig_gen(const IN_SIGNAL in_sig, const OUT_SIGNAL out_sig, double *time, double *u_in, double *u_out) {
 	double t = in_sig.tn;
@@ -56,12 +59,30 @@ void print_signal(FILE* stream, const IN_SIGNAL in_sig, const OUT_SIGNAL out_sig
 	fprintf(stream, "For output signal:\n"); 
 	fprintf(stream, "u1: %.3lf V, u2: %.3lf V\n", out_sig.u1, out_sig.u2);
 	fprintf(stream, "In %d points\n", in_sig.n);
-	fprintf(stream, "%6s %6s %6s %6s\n", "Number", "time", "Uin", "Uout");
+	fprintf(stream, "%6s | %6s | %6s | %6s\n", "Number", "time", "Uin", "Uout");
 	for (int i = 0; i < in_sig.n; i++) {
-		fprintf(stream, "%6.3d %6.3lf %6.3lf %6.3lf\n", i+1, time[i], u_in[i], u_out[i]);
+	  fprintf(stream, "%6.3d | %6.3lf | %6.3lf | %6.3lf\n", i+1, time[i], u_in[i], u_out[i]);
 	}
 	
 	fprintf(stream, "Duration of input signal impuls is: %lf"
-			"	  of output:		     %lf\n",
+			"\n	  of output:		     %lf\n",
 			dur_in, dur_out);
+}
+
+void maxima(int n, double* time, double* u_in, double* u_out) {
+	FILE* file = fopen("time", "w+");
+	for (int i = 0; i < n; i++) {
+		fprintf(file, "%lf ", time[i]);
+	}
+	fclose(file);
+	file = fopen("u_in", "w+");
+	for (int i = 0; i < n; i++) {
+		fprintf(file, "%lf ", u_in[i]);
+	}
+	fclose(file);
+	file = fopen("u_out", "w+");
+	for (int i = 0; i < n; i++) {
+	     fprintf(file, "%lf ", u_out[i]);
+	}
+	fclose(file);
 }

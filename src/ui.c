@@ -14,10 +14,12 @@ int menu(void) {
 		puts(" 3: Display signal");
 		puts(" 4: Print signal to file");
 		puts(" 5: Generate signal");
-		puts(" 6: Exit");
+		puts(" 6: Input results from file");
+		puts(" 7: Plot the graphics in Maxima");
+		puts(" 8: Exit");
 		printf(">");
 		option = getint();
-	} while ((option < 0) || (option > 7)); 
+	} while ((option < 0) || (option > 8)); 
 	return option;
 }
 

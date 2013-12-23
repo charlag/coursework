@@ -1,0 +1,25 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 13.04.2 ] */
+
+/* [wxMaxima: input   start ] */
+time: read_list("time");
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+u_in: read_list("u_in");
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+u_out: read_list("u_out");
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([['discrete,time,u_in]])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([['discrete,time,u_out]])$
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$
