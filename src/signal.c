@@ -40,8 +40,8 @@ double sig_duration(double *arr, int n, double tn, double tk) {
 			max = arr[i];
 	}
 	//Длительность входного и выходного сигналов
-	float durat = 0;
-	float dt = (tk-tn)/(n-1);
+	double durat = 0;
+	double dt = (tk-tn)/(n-1);
 	for (int i = 0; i < n; i++) {
 		 if (arr[i] >= min + 0.5 * (max - min))
 			 durat+=dt;

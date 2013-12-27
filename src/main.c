@@ -17,8 +17,6 @@
 #define MAXIMA 7
 #define QUIT_CODE 8
 
-int menu(void);
-
 int main() {
 	IN_SIGNAL in_sig;
 	OUT_SIGNAL out_sig;
@@ -28,8 +26,8 @@ int main() {
 	
 	double* time = (double*) malloc(sizeof(double) * 10);
 	double* u_in = (double*) malloc(sizeof(double) * 10);
-	double* u_out = (double*) malloc(sizeof(double) * 10);
-	double in_durat, out_durat;
+	double* u_out = (double*) malloc(sizeof(double) * 10); 
+	double in_durat, out_durat; //duration of signals
 	while (choice != QUIT_CODE) {
 		switch(choice) {
 		case FILE_READ_PARAMS:
@@ -81,9 +79,9 @@ int main() {
 				puts("Signal is not inserted");
 				getint();
 			} else {
-				time = malloc(sizeof(double) * (in_sig.n+1));
-				u_in = malloc(sizeof(double) * (in_sig.n+1));
-				u_out = malloc(sizeof(double) * (in_sig.n+1));
+			  time = realloc(time, sizeof(double) * (in_sig.n+1));
+			  u_in = realloc(u_in, sizeof(double) * (in_sig.n+1));
+			  u_out = realloc(u_out, sizeof(double) * (in_sig.n+1));
 				sig_gen(in_sig, out_sig, time, u_in, u_out);
 				ready = 2;
 				in_durat = sig_duration(u_in, in_sig.n, in_sig.tn, in_sig.tk);
@@ -109,7 +107,7 @@ int main() {
 				getint();
 			} else {
 				maxima(in_sig.n, time, u_in, u_out);
-				puts("Generated file mxm.wxm, open it with WxMaxima");
+				puts("Generated files. Open mxm.wxm with WxMaxima");
 				getint();
 			}
 			break;
